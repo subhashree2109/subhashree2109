@@ -1,0 +1,28 @@
+name: Generate Snake
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # runs daily
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Platane/snk@v3
+        with:
+          github_user_name: subhashree2109
+          outputs: dist/github-contribution-grid-snake.svg
+
+      - name: Push
+        uses: EndBug/add-and-commit@v7
+        with:
+          branch: output
+          message: "Generate snake"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: snake
+          path: dist
